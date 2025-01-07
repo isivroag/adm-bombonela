@@ -25,7 +25,21 @@ $(document).ready(function() {
                 titleAttr: "Exportar a PDF",
                 title: "Cortes de Sucursales",
                 className: "btn bg-danger",
+                orientation: "landscape",
                 exportOptions: { columns: [ 1, 3, 4, 5,6,7,8,9,10,11,12,13,14,15] },
+                customize: function(doc) {
+                    // Cambiar tamaño de la fuente
+                    doc.defaultStyle.fontSize = 8; // Tamaño de letra por defecto
+                    doc.styles.tableHeader.fontSize = 10; // Tamaño de letra del encabezado
+                    var body = doc.content[1].table.body; // Accede al cuerpo de la tabla
+                    body.forEach(function(row, rowIndex) {
+                        if (rowIndex > 0) { // Excluye la primera fila (encabezado)
+                            for (var colIndex = 2; colIndex < row.length; colIndex++) { // Columna 3 en adelante (índice 2+)
+                                row[colIndex].alignment = 'right'; // Alinear a la derecha
+                            }
+                        }
+                    });
+                }
             },
         ],
         stateSave: true,
